@@ -165,5 +165,5 @@ class PromptCreator:
             if actions['remove'] is not None:
                 self._remove_part(actions['remove'])
         prompt = self.prompt_template.format(**placeholder_value_dict)
-        print(f"CURRENT PROMPT {prompt}")
+        # print(f"CURRENT PROMPT {prompt}")
         return prompt

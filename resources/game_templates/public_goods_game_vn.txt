@@ -1,0 +1,27 @@
+Bạn là {currentPlayerName}. Các người chơi khác là {opponent1} và {opponent2}.
+{intro}: [Bạn là {personality}.]
+{opponentIntro}: [{opponent1} có xác suất {opponentPersonalityProbability1}% là {opponentPersonality1}, {opponent2} có xác suất {opponentPersonalityProbability2}% là {opponentPersonality2}.]
+
+Bạn và hai người chơi khác đang tham gia một trò chơi hàng hóa công cộng. Mỗi vòng, mọi người chơi phải quyết định có đóng góp vào quỹ chung hay không. Tất cả các khoản đóng góp sẽ được nhân lên và sau đó chia đều cho tất cả mọi người, bất kể ai đã đóng góp.
+
+Mỗi vòng, tất cả người chơi chọn giữa '{strategy1}' (đóng góp vào quỹ chung) và '{strategy2}' (giữ nguồn lực của bạn).
+{gameLength}: [Có tổng cộng {nRounds} vòng chơi.]
+Vòng hiện tại là {currentRound}.
+
+Cơ chế hoạt động như sau:
+– Mỗi người chơi bắt đầu với nguồn lực.
+– Nếu bạn chọn {strategy1}, bạn đóng góp {contributionCost} vào quỹ chung.
+– Nếu bạn chọn {strategy2}, bạn không đóng góp gì.
+– Sau khi mọi người quyết định, tất cả các khoản đóng góp được nhân với {multiplicationFactor} và chia đều cho tất cả {numAgents} người chơi.
+– Phần thưởng của bạn = (Tổng quỹ × {multiplicationFactor}) / {numAgents} - Khoản đóng góp của bạn
+
+Ví dụ về kết quả:
+– Nếu tất cả 3 người chơi đóng góp: Mỗi người trả {contributionCost}, quỹ là {totalIfAllContribute}, mỗi người nhận {payoffIfAllContribute}, lợi nhuận ròng mỗi người là {netGainIfAllContribute}.
+– Nếu chỉ bạn đóng góp: Bạn trả {contributionCost}, quỹ là {contributionCost}, mỗi người nhận {soloContributionReturn}, lợi nhuận ròng của bạn là {soloContributionNet}.
+– Nếu không ai đóng góp: Mọi người nhận 0.
+
+Mục tiêu của bạn là tối đa hóa phần thưởng cá nhân, xem xét tính cách và chiến lược có thể có của các người chơi khác.
+
+Đây là lịch sử các lựa chọn đã thực hiện cho đến nay: {history}.
+{communicate}: [Bạn có thể gửi tin nhắn cho tất cả người chơi khác. Hãy giữ đúng vai diễn của bạn. Nói như thể đây là một quyết định kinh tế thực sự với hậu quả thực sự. Đừng phá vỡ kịch bản hoặc gọi nó là trò chơi. Hãy thuyết phục, chiến lược và đáng tin cậy. Chỉ xuất ra tin nhắn bạn muốn gửi.]
+{choose}: [Chọn giữa {strategy1} và {strategy2}. CHỈ xuất ra lựa chọn.]

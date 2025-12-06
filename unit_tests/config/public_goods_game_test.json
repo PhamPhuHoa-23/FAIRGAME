@@ -1,0 +1,51 @@
+{
+    "name": "Public Goods Game",
+    "gameType": "public_goods",
+    "nRounds": 2,
+    "nRoundsIsKnown": true,
+    "llm": "Claude35Haiku",
+    "languages": [
+        "en"
+    ],
+    "allAgentPermutations": false,
+    "agents": {
+        "names": [
+            "Alice",
+            "Bob",
+            "Carol",
+            "Dave"
+        ],
+        "personalities": {
+            "en": [
+                "cooperative",
+                "selfish",
+                "strategic",
+                "altruistic"
+            ]
+        },
+        "opponentPersonalityProb": [
+            0,
+            0,
+            0,
+            0
+        ]
+    },
+    "publicGoodsConfig": {
+        "contributionCost": 10,
+        "multiplicationFactor": 2.0,
+        "numAgents": 4
+    },
+    "payoffMatrix": {
+        "weights": {},
+        "strategies": {
+            "en": {
+                "strategy1": "Contribute",
+                "strategy2": "Free-ride"
+            }
+        },
+        "combinations": {},
+        "matrix": {}
+    },
+    "stopGameWhen": [],
+    "agentsCommunicate": false
+}

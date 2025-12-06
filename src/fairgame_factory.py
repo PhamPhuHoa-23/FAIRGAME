@@ -4,6 +4,7 @@ import pandas as pd
 from src.fairgame import FairGame
 from src.agent import Agent
 from src.io_managers.io_manager import IoManager
+from src.public_goods_fairgame import PublicGoodsFairGame
 
 
 class FairGameFactory:
@@ -153,6 +154,7 @@ class FairGameFactory:
         """Instantiate a single FairGame based on a configuration row.
 
         Builds a prompt template, creates agents, and instantiates a FairGame.
+        For Public Goods Game, creates a PublicGoodsFairGame instead.
 
         Args:
             config (dict): Configuration dictionary.
@@ -160,10 +162,27 @@ class FairGameFactory:
             payoff_matrix: The payoff matrix for the game.
 
         Returns:
-            FairGame: A FairGame instance.
+            FairGame or PublicGoodsFairGame: A game instance.
         """
         prompt_template = self.build_prompt_template(config, game_config_row['Language'])
         agents = self.create_agents(game_config_row)
+        
+        # Check if this is a public goods game
+        if config.get('gameType') == 'public_goods':
+            return PublicGoodsFairGame(
+                config['name'],
+                game_config_row['Language'],
+                agents,
+                config['nRounds'],
+                config['nRoundsIsKnown'],
+                payoff_matrix,
+                prompt_template,
+                config['stopGameWhen'],
+                config['agentsCommunicate'],
+                config['publicGoodsConfig']
+            )
+        
+        # Standard game creation
         return FairGame(
             config['name'],
             game_config_row['Language'],

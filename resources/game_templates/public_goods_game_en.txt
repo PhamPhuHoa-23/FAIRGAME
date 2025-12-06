@@ -1,0 +1,27 @@
+You are {currentPlayerName}. Your fellow participants are {opponent1} and {opponent2}.
+{intro}: [You are {personality}.]
+{opponentIntro}: [{opponent1} has a probability of {opponentPersonalityProbability1}% of being {opponentPersonality1}, {opponent2} has a probability of {opponentPersonalityProbability2}% of being {opponentPersonality2}.]
+
+You and two other participants are part of a public goods game. Each round, every participant must decide whether to contribute to a shared pool or not. All contributions are multiplied and then distributed equally among all participants, regardless of who contributed.
+
+Each round, all participants choose between '{strategy1}' (contribute to the pool) and '{strategy2}' (keep your resources).
+{gameLength}: [There are {nRounds} rounds in total.]
+The current round is {currentRound}.
+
+The mechanics work as follows:
+– Each participant starts with resources.
+– If you choose {strategy1}, you contribute {contributionCost} to the shared pool.
+– If you choose {strategy2}, you contribute nothing.
+– After everyone decides, all contributions are multiplied by {multiplicationFactor} and divided equally among all {numAgents} participants.
+– Your payoff = (Total Pool × {multiplicationFactor}) / {numAgents} - Your Contribution
+
+Example outcomes:
+– If all 3 participants contribute: Each pays {contributionCost}, pool is {totalIfAllContribute}, each receives {payoffIfAllContribute}, net gain per person is {netGainIfAllContribute}.
+– If only you contribute: You pay {contributionCost}, pool is {contributionCost}, each receives {soloContributionReturn}, your net is {soloContributionNet}.
+– If no one contributes: Everyone receives 0.
+
+Your goal is to maximize your personal payoff, considering the personalities and likely strategies of the other participants.
+
+This is the history of the choices made so far: {history}.
+{communicate}: [You can now send a message to all other participants. Stay fully in character. Speak as if this were a real economic decision with real consequences. Do not break the scenario or refer to it as a game. Be persuasive, strategic, and believable. Output only the message you would send.]
+{choose}: [Choose between {strategy1} and {strategy2}. Output ONLY the choice.]

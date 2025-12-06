@@ -93,7 +93,7 @@ class GameRound:
         """
         return [a for a in self.game.agents.values() if a != agent]
 
-    @retry(tries=10, delay=1)
+    @retry(tries=3, delay=1)
     def _execute_agent_strategy(self, agent, prompt):
         """
         Retrieve a strategy from the agent after giving it a strategy prompt.
