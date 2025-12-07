@@ -18,13 +18,11 @@
         "personalities": {
             "en": [
                 "cooperative",
-                "selfish",
-                "strategic"           
+                "selfish"
             ],
             "vn": [
                 "hợp tác",
-                "ích kỷ",
-                "chiến lược"
+                "ích kỷ"
             ]
         },
         "opponentPersonalityProb": [
