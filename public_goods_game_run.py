@@ -21,6 +21,7 @@ from pathlib import Path
 from typing import Dict, Any
 import requests
 from dotenv import load_dotenv
+import glob
 
 from src.io_managers.file_manager import FileManager
 from src.results_processing.results_processor import ResultsProcessor
@@ -159,18 +160,61 @@ def load_config_file(config_dir: str, config_name: str) -> Dict[str, Any]:
     return FileManager.read_json_file(config_filepath)
 
 
-def save_results(results: Dict[str, Any], config_name: str) -> None:
+def save_results(results: Dict[str, Any], config_name: str, config: Dict[str, Any], language: str) -> str:
     """
-    Convert results to a DataFrame and save as CSV.
+    Convert results to a DataFrame and save as CSV with auto-incrementing number suffix.
     
     Args:
         results (Dict[str, Any]): Game results to save.
         config_name (str): Base name for the results file.
+        config (Dict[str, Any]): Game configuration.
+        language (str): Language code (e.g., 'en', 'vn').
+        
+    Returns:
+        str: The filename that was saved.
     """
     results_processor = ResultsProcessor()
     df = results_processor.process(results)
-    results_filepath = RESULTS_PATH / f"results_{config_name}.csv"
+    
+    # Extract parameters for filename
+    num_agents = len(config['agents']['names'])
+    num_rounds = config['nRounds']
+    llm_name = config['llm'].lower().replace('openai', '').replace('gpt', 'chatgpt').replace('-', '')
+    
+    # Get contribution cost and multiplication factor from config
+    contribution_cost = int(config.get('publicGoodsConfig', {}).get('contributionCost', 0))
+    multiplication_factor = config.get('publicGoodsConfig', {}).get('multiplicationFactor', 0)
+    # Format multiplication factor as integer if it's a whole number, otherwise 1 decimal
+    r_value = int(multiplication_factor) if multiplication_factor == int(multiplication_factor) else multiplication_factor
+    
+    # Base filename pattern without number
+    base_pattern = f"results_{config_name}_{language}_{num_agents}_agents_{num_rounds}_rounds_{llm_name}_cost{contribution_cost}_r{r_value}"
+    
+    # Find existing files with this pattern
+    existing_files = glob.glob(str(RESULTS_PATH / f"{base_pattern}_*.csv"))
+    
+    # Extract numbers from existing files
+    max_number = -1
+    for file_path in existing_files:
+        filename = Path(file_path).stem  # Get filename without extension
+        # Extract the number at the end
+        try:
+            number_part = filename.split('_')[-1]
+            number = int(number_part)
+            max_number = max(max_number, number)
+        except (ValueError, IndexError):
+            continue
+    
+    # Next number is max + 1 (starts at 0 if no files exist)
+    next_number = max_number + 1
+    
+    # Create final filename with number
+    filename = f"{base_pattern}_{next_number}.csv"
+    results_filepath = RESULTS_PATH / filename
     FileManager.save_results_csv(df, results_filepath)
+    
+    return filename
+
 
 
 def main() -> None:
@@ -205,13 +249,12 @@ def main() -> None:
     runner = PublicGoodsGameRunner(call_type, config, templates, fairgame_url)
     results = runner.run()
 
-    # Save results with language suffix
-    results_name = f"{config_name}_{language}"
-    save_results(results, results_name)
+    # Save results and get the actual filename with number
+    saved_filename = save_results(results, config_name, config, language)
     
     print(f"\nPublic Goods Game completed successfully!")
     print(f"Language: {language}")
-    print(f"Results saved to: {RESULTS_PATH / f'results_{results_name}.csv'}")
+    print(f"Results saved to: {RESULTS_PATH / saved_filename}")
 
 
 if __name__ == "__main__":
