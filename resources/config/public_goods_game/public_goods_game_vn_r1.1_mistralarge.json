@@ -1,0 +1,47 @@
+{
+    "name": "Public Goods Game",
+    "gameType": "public_goods",
+    "nRounds": 10,
+    "nRoundsIsKnown": true,
+    "llm": "MistralLarge",
+    "languages": [
+        "vn"
+    ],
+    "allAgentPermutations": true,
+    "agents": {
+        "names": [
+            "agent1",
+            "agent2",
+            "agent3"
+        ],
+        "personalities": {
+            "vn": [
+                "hợp tác",
+                "ích kỷ",
+                "chiến lược"
+            ]
+        },
+        "opponentPersonalityProb": [
+            0
+        ]
+    },
+    "publicGoodsConfig": {
+        "contributionCost": 10,
+        "multiplicationFactor": 1.1,
+        "numAgents": 3
+    },
+    "payoffMatrix": {
+        "weights": {},
+        "strategies": {
+            "vn": {
+                "strategy1": "OptionA",
+                "strategy2": "OptionB"
+            }
+        },
+        "combinations": {},
+        "matrix": {}
+    },
+    "stopGameWhen": [],
+    "agentsCommunicate": false
+}
+

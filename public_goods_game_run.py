@@ -108,26 +108,34 @@ class PublicGoodsGameRunner:
 
 def parse_arguments(argv: list) -> tuple:
     """
-    Extract the call type and language from command-line arguments.
+    Extract the call type, language, and optional config name from command-line arguments.
     
     Args:
         argv (list): Command-line arguments.
     
     Returns:
-        tuple: (call_type, language)
+        tuple: (call_type, language, config_name)
     
     Raises:
         ValueError: If required arguments are not provided.
     """
     if len(argv) < 2:
-        raise ValueError("Usage: python public_goods_game_run.py <call_type> [language]\n"
+        raise ValueError("Usage: python public_goods_game_run.py <call_type> [language] [--config <config_name>]\n"
                         "  call_type: 'local' or 'api'\n"
-                        "  language: 'en' or 'vn' (default: 'en')")
+                        "  language: 'en' or 'vn' (default: 'en')\n"
+                        "  --config: Optional config file name (without extension)")
     
     call_type = argv[1]
-    language = argv[2] if len(argv) > 2 else 'en'
+    language = argv[2] if len(argv) > 2 and not argv[2].startswith('--') else 'en'
     
-    return call_type, language
+    # Check for --config flag
+    config_name = None
+    if '--config' in argv:
+        config_idx = argv.index('--config')
+        if config_idx + 1 < len(argv):
+            config_name = argv[config_idx + 1]
+    
+    return call_type, language, config_name
 
 
 def load_template_file(template_name: str, language: str) -> str:
@@ -224,14 +232,14 @@ def main() -> None:
     Loads configuration, templates, runs games, and saves results.
     """
     # Parse command-line arguments
-    call_type, language = parse_arguments(sys.argv)
+    call_type, language, config_name_arg = parse_arguments(sys.argv)
 
     # Load environment variables
     fairgame_url = load_env_variables()
 
     # Configuration parameters
     config_dir = "public_goods_game"
-    config_name = "public_goods_game_round_known"
+    config_name = config_name_arg if config_name_arg else "public_goods_game_round_known"
     template_name = "public_goods_game"
     
     # Load config file
